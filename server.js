@@ -26,7 +26,7 @@ app.post('/create-user', async(req, res) => {
     }
 })
 
-mongoose.connect(process.env.DB_CONNECRION_STRING, (req, res) => {
+mongoose.connect(process.env.DB_CONNECTION_STRING, (req, res) => {
     console.log("Connected to the database");
 })
 

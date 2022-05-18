@@ -22,7 +22,7 @@ app.post('/create-user', async(req, res) => {
         // const name = req.body.name;
         // res.send(`User ${name} is created`);
     } catch (error) {
-        res.send({ message: "Error occured!" })
+        res.send({ message: `Error occured! ${error}` })
     }
 })
 

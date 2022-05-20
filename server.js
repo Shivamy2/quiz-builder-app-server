@@ -6,7 +6,7 @@ require("dotenv/config");
 const app = express();
 const User = require("./model/user")
 app.use(express.json());
-app.use(cors);
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send("Initial Request!!")

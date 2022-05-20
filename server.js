@@ -30,7 +30,8 @@ app.post('/create-user', async(req, res) => {
 
 app.get('/me', async(req, res) => {
     try {
-        User.find({_id: req.body.id}, (err, data) => {
+        const id = req.headers.authorization;
+        User.find({_id: id}, (err, data) => {
             if(err) res.status(440).json({message: "id is invalid"});
             else res.status(200).json(data)
         });

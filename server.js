@@ -26,6 +26,17 @@ app.post('/create-user', async(req, res) => {
     } catch (error) {
         res.send({ message: `Error occured! ${error}` })
     }
+});
+
+app.get('/me', async(req, res) => {
+    try {
+        User.find({_id: req.body.id}, (err, data) => {
+            if(err) res.status(440).json({message: "id is invalid"});
+            else res.status(200).json(data)
+        });
+    } catch (error) {
+        res.status(430).json({message: "Could not trigger api0"})
+    }
 })
 
 mongoose.connect(process.env.DB_CONNECTION_STRING, (req, res) => {

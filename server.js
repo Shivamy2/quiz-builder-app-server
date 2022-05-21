@@ -38,6 +38,18 @@ app.get('/me', async(req, res) => {
     } catch (error) {
         res.status(430).json({message: "Could not trigger api0"})
     }
+});
+
+app.post('/login', async(req, res) => {
+    try {
+        const {email, password} = req.body;
+        User.find({email: email, password: password}, (err, data) => {
+            if(err) res.status(400).json({message: "User Not Found"});
+            else res.status(200).json(data);
+        })
+    } catch (error) {
+        res.json({message: "Cannot trigger API"})
+    }
 })
 
 mongoose.connect(process.env.DB_CONNECTION_STRING, (req, res) => {

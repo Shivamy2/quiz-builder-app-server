@@ -6,7 +6,7 @@ const quizesSchema = new mongoose.Schema({
             optionType: {type: String, enum:["mcqs", "objective"]},
             question: String,
             option: [String],
-            answer: [Number]
+            answers: [Number]
         }
     ]
 });

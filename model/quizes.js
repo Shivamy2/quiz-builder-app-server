@@ -3,7 +3,7 @@ const quizesSchema = new mongoose.Schema({
     title: String,
     questions: [
         {
-            optionType: {type: String, enum:["radio", "checkbox"]},
+            optionType: {type: String, enum:["mcqs", "objective"]},
             question: String,
             option: [String],
             answer: [Number]

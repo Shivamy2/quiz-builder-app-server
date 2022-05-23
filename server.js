@@ -4,7 +4,8 @@ const cors = require("cors");
 require("dotenv/config");
 
 const app = express();
-const User = require("./model/user")
+const User = require("./model/user");
+const Quiz = require("./model/quizes");
 app.use(express.json());
 app.use(cors());
 
@@ -18,7 +19,7 @@ app.get('/questions', (req, res) => {
 
 app.post('/create-user', async(req, res) => {
     try {
-        const myuser = new User(req.body);
+        const myuser = new User({...req.body, quizes: []});
         await myuser.save();
         res.send(myuser);
         // const name = req.body.name;
@@ -50,9 +51,36 @@ app.post('/login', async(req, res) => {
     } catch (error) {
         res.json({message: "Cannot trigger API"})
     }
+});
+
+app.post('/quiz', async(req, res) => {
+    try {
+        const userID = req.headers.authorization;
+        if(!userID) return res.status(403).json({message: "Not authorized to perform this task"});
+        const quiz = new Quiz(req.body);
+        await quiz.save().then(async (q) => {
+            const user = await User.findOne({_id: userID});
+            user.quizes.push(q._id);
+            await user.save();
+        });
+        res.json(quiz)
+    } catch (error) {
+        res.json(error)
+    }
 })
 
-mongoose.connect(process.env.DB_CONNECTION_STRING, (req, res) => {
+app.get('/quiz', async(req, res) => {
+    try {
+        const userId = req.headers.authorization;
+        if(!userId) return res.status(403).json({message: "Not authorized"}) 
+        const user = await User.findById(userId).populate({path: 'quizes'});
+        return res.json(user.quizes);
+    } catch (error) {
+        res.status(403).json({message: "Not able to trigger api"})
+    }
+})
+
+mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true}, (req, res) => {
     console.log("Connected to the database");
 })
 

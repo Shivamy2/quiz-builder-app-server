@@ -78,6 +78,15 @@ app.get('/quiz', async(req, res) => {
     } catch (error) {
         res.status(403).json({message: "Not able to trigger api"})
     }
+});
+
+app.get('/quiz/:id', async(req, res) => {
+    try {
+        const quiz = await Quiz.findById(req.params.id);
+        return res.json(quiz);
+    } catch (error) {
+        res.status(403).json({message: "Not able to trigger api"})
+    }
 })
 
 mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true}, (req, res) => {

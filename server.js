@@ -91,8 +91,10 @@ app.get('/quiz/:id', async(req, res) => {
 
 app.delete('/quiz/:id', async(req, res) => {
     try {
+        const userId = req.headers.authorization;
+        if(!userId) return res.status(403).json({message: "Not authorized"});
         await Quiz.deleteOne({_id: req.params.id});
-        res.status(200).json({success: "Successfully deleted"})
+        res.status(200).json({success: "Successfully deleted"});
     } catch (error) {
         res.status(403).json({message: "Unable to trigger api"});
     }

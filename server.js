@@ -65,7 +65,7 @@ app.post('/quiz', async(req, res) => {
         });
         res.json(quiz)
     } catch (error) {
-        res.json(error)
+        res.status(444).json(error)
     }
 })
 

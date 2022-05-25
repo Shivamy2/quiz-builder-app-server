@@ -85,7 +85,16 @@ app.get('/quiz/:id', async(req, res) => {
         const quiz = await Quiz.findById(req.params.id);
         return res.json(quiz);
     } catch (error) {
-        res.status(403).json({message: "Not able to trigger api"})
+        res.status(403).json({message: "Unable to trigger api"})
+    }
+})
+
+app.delete('/quiz/:id', async(req, res) => {
+    try {
+        await Quiz.deleteOne({_id: req.params.id});
+        res.status(200).json({success: "Successfully deleted"})
+    } catch (error) {
+        res.status(403).json({message: "Unable to trigger api"});
     }
 })
 
